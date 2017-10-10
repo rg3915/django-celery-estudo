@@ -1,6 +1,6 @@
 from daterange_filter.filter import DateRangeFilter
 from django.contrib import admin
-from .models import Person, Phone
+from .models import Person, Phone, Customer
 from .forms import PersonForm
 
 
@@ -25,3 +25,6 @@ class PersonAdmin(admin.ModelAdmin):
         return obj.phone_set.first()
 
     phone.short_description = 'telefone'
+
+
+admin.site.register(Customer)

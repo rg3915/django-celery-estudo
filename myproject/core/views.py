@@ -5,6 +5,7 @@ from django.views.generic import UpdateView, DeleteView
 from .mixins import NameSearchMixin
 from .models import Person
 from .forms import PersonForm
+from .tasks import send_email_
 
 
 def home(request):
@@ -18,8 +19,23 @@ class PersonList(NameSearchMixin, ListView):
 
 person_detail = DetailView.as_view(model=Person)
 
-person_create = CreateView.as_view(model=Person, form_class=PersonForm)
+
+class PersonCreate(CreateView):
+    model = Person
+    form_class = PersonForm
+
+    def form_valid(self, *args, **kwargs):
+        response = super(PersonCreate, self).form_valid(*args, **kwargs)
+        send_email_.delay('email2')
+        return response
+
+    # def post():
+    #     files = request.GET.getlist(files)
+    #     for file in files:
+    #         parse_cv.delay(file)
+
 
 person_update = UpdateView.as_view(model=Person, form_class=PersonForm)
 
-person_delete = DeleteView.as_view(model=Person, success_url=r('core:person_list'))
+person_delete = DeleteView.as_view(model=Person,
+                                   success_url=r('core:person_list'))

@@ -20,5 +20,14 @@ def send_email_(email):
 
 
 @shared_task(queue='fila3')
+def print_numbers(max_number):
+    print('Aguardar 10 seg')
+    time.sleep(10)
+    for i in range(max_number):
+        print(i)
+    return 'Fim'
+
+
+@shared_task(queue='fila4')
 def parse_cv(filename):
     return True

@@ -5,7 +5,7 @@ from django.views.generic import UpdateView, DeleteView
 from .mixins import NameSearchMixin
 from .models import Person
 from .forms import PersonForm
-from .tasks import send_email_
+from .tasks import send_email_, print_numbers
 
 
 def home(request):
@@ -30,6 +30,7 @@ class PersonCreate(CreateView):
         last_name = self.object.last_name
         email = self.object.email
         send_email_.delay('{} {} <{}>'.format(first_name, last_name, email))
+        print_numbers.delay(10)
         return response
 
     # def post():

@@ -1,5 +1,5 @@
 shell_person:
-	python manage.py shell < shell/shell_person.py
+	python manage.py shell_plus < shell/shell_person.py
 
 selenium_person:
 	python selenium/selenium_person.py

@@ -26,7 +26,10 @@ class PersonCreate(CreateView):
 
     def form_valid(self, *args, **kwargs):
         response = super(PersonCreate, self).form_valid(*args, **kwargs)
-        send_email_.delay('email2')
+        first_name = self.object.first_name
+        last_name = self.object.last_name
+        email = self.object.email
+        send_email_.delay('{} {} <{}>'.format(first_name, last_name, email))
         return response
 
     # def post():
@@ -37,5 +40,7 @@ class PersonCreate(CreateView):
 
 person_update = UpdateView.as_view(model=Person, form_class=PersonForm)
 
-person_delete = DeleteView.as_view(model=Person,
-                                   success_url=r('core:person_list'))
+person_delete = DeleteView.as_view(
+    model=Person,
+    success_url=r('core:person_list')
+)

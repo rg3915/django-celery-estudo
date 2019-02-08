@@ -1,11 +1,14 @@
-from django.conf.urls import url
+from django.urls import path
 from myproject.core import views as c
 
+app_name = 'core'
+
+
 urlpatterns = [
-    url(r'^$', c.home, name='home'),
-    url(r'^person/$', c.PersonList.as_view(), name='person_list'),
-    url(r'^person/add/$', c.PersonCreate.as_view(), name='person_add'),
-    url(r'^person/(?P<pk>\d+)/$', c.person_detail, name='person_detail'),
-    url(r'^person/(?P<pk>\d+)/edit/$', c.person_update, name='person_edit'),
-    url(r'^person/(?P<pk>\d+)/delete/$', c.person_delete, name='person_delete'),
+    path('', c.home, name='home'),
+    path('person/', c.PersonList.as_view(), name='person_list'),
+    path('person/add/', c.PersonCreate.as_view(), name='person_add'),
+    path('person/<int:pk>/', c.person_detail, name='person_detail'),
+    path('person/<int:pk>/edit/', c.person_update, name='person_edit'),
+    path('person/<int:pk>/delete/', c.person_delete, name='person_delete'),
 ]

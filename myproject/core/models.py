@@ -71,7 +71,7 @@ class Person(TimeStampedModel, Address):
 
 class Phone(models.Model):
     phone = models.CharField('telefone', max_length=20, blank=True)
-    person = models.ForeignKey('Person')
+    person = models.ForeignKey('Person', on_delete=models.CASCADE)
     phone_type = models.CharField(
         'tipo', max_length=3, choices=PHONE_TYPE, default='pri')
 

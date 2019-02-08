@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.core.urlresolvers import reverse_lazy as r
+from django.urls import reverse_lazy as r
 from django.views.generic import CreateView, ListView, DetailView
 from django.views.generic import UpdateView, DeleteView
 from .mixins import NameSearchMixin

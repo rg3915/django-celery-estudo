@@ -7,7 +7,6 @@ Estudo de Django e Celery
 ```
 celery --app=myproject worker --loglevel=INFO --queue=fila1,fila2
 ```
-```
 
 ## Como rodar o projeto?
 

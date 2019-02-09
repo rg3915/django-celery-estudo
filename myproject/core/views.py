@@ -1,3 +1,4 @@
+import timeit
 from django.shortcuts import render
 from django.urls import reverse_lazy as r
 from django.views.generic import CreateView, ListView, DetailView
@@ -29,8 +30,24 @@ class PersonCreate(CreateView):
         first_name = self.object.first_name
         last_name = self.object.last_name
         email = self.object.email
+
         send_email_.delay('{} {} <{}>'.format(first_name, last_name, email))
-        print_numbers.delay(10)
+
+        # Iniciando contagem do cronometro
+        tic = timeit.default_timer()
+
+        # Chamando task para teste do django_celery_results
+        res = print_numbers.delay(10)
+
+        print('res print_numbers id', res.id)
+        print('res print_numbers get', res.get())
+        # Fim do cronometro
+        toc = timeit.default_timer()
+        end = toc - tic
+        print('time', end)
+        if end > 60:
+            print(end / 60, 'min')
+
         return response
 
     # def post():

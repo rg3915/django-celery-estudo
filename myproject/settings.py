@@ -40,9 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # thirty apps
-    'widget_tweaks',
     'daterange_filter',
+    'django_celery_results',
     'django_extensions',
+    'widget_tweaks',
     # my apps
     'myproject.core',
 ]
@@ -138,3 +139,7 @@ BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+# Django-Celery-results
+CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_RESULT_BACKEND = 'django-cache'

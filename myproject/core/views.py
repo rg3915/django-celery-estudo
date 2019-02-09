@@ -1,8 +1,10 @@
 import timeit
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy as r
 from django.views.generic import CreateView, ListView, DetailView
 from django.views.generic import UpdateView, DeleteView
+from django_celery_results.models import TaskResult
 from .mixins import NameSearchMixin
 from .models import Person
 from .forms import PersonForm
@@ -10,6 +12,7 @@ from .tasks import send_email_, print_numbers
 
 
 def home(request):
+    print('request.session:', request.session['res_celery_id'])
     return render(request, 'index.html')
 
 
@@ -40,7 +43,14 @@ class PersonCreate(CreateView):
         res = print_numbers.delay(10)
 
         print('res print_numbers id', res.id)
-        print('res print_numbers get', res.get())
+        # print('res print_numbers get', res.get())  # demora
+        # if res.get():  # demora
+        #     print('Demorou, mas chegou', res.result)
+        #     print('aqui', get_last_taskresult(self.request, res.id))
+        #     if self.request.session['res_celery_id'] != res.id:
+        #         pass
+
+        self.request.session['res_celery_id'] = res.id
         # Fim do cronometro
         toc = timeit.default_timer()
         end = toc - tic
@@ -62,3 +72,17 @@ person_delete = DeleteView.as_view(
     model=Person,
     success_url=r('core:person_list')
 )
+
+
+def get_last_taskresult(request, task_id=None):
+    '''
+    Pega o id do último TaskResult
+    '''
+    print('request.session:', request.session['res_celery_id'])
+    res_celery_id = request.session['res_celery_id']
+    # task_result = TaskResult.objects.get(task_id=task_id)
+    task_result = TaskResult.objects.filter(task_id=res_celery_id).first()
+    res = {'res_celery_id': res_celery_id}
+    if task_result:
+        res['task_result'] = task_result.result
+    return JsonResponse(res)

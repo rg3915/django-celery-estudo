@@ -21,8 +21,9 @@ def send_email_(email):
 
 @shared_task(queue='fila3')
 def print_numbers(max_number):
-    print('Aguardar 10 seg')
-    time.sleep(10)
+    _sec = 10
+    print('Aguardar {} seg'.format(_sec))
+    time.sleep(_sec)
     for i in range(max_number):
         print(i)
     return 'Fim'

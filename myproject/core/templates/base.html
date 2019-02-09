@@ -23,6 +23,13 @@
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
+  <!-- bootstrap-notify -->
+  <!-- http://bootstrap-notify.remabledesigns.com/ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mouse0270-bootstrap-notify/3.1.7/bootstrap-notify.min.js"></script>
+  <!-- animate.css -->
+  <!-- https://daneden.github.io/animate.css/ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
   <style type="text/css">
     body {
       padding-top: 50px;
@@ -39,5 +46,69 @@
     </div>
   </div>
   {% include "footer.html" %}
+
+  {% block js %}
+    <script>
+      var intervalo;
+
+      $(document).ready(function() {
+        $.notify({
+          // options
+          icon: 'fa fa-spinner fa-spin',
+          title: 'Celery Notify:',
+          message: 'Aguardando...',
+          url: 'http://github.com/mouse0270/bootstrap-notify',
+        },{
+          // settings
+          type: 'warning',
+          delay: 8000,
+          timer: 1000,
+          animate: {
+            enter: 'animated fadeInDown',
+            exit: 'animated fadeOutUp'
+          },
+        });
+
+        var i = 0
+        intervalo = window.setInterval(function() {
+          console.log(i);
+          i++
+          get_notification();
+
+        }, 1000);
+      });
+
+      function get_notification() {
+        $.ajax({
+          url: "last_taskresult/",
+          success: function(response) {
+            var res = response.task_result
+
+            if (res) {
+              $.notify({
+                // options
+                title: 'Celery Notify:',
+                message: 'Tarefa concluida: id' + response.res_celery_id + '-' + response.task_result,
+                url: 'http://github.com/mouse0270/bootstrap-notify',
+              },{
+                // settings
+                type: 'success',
+                delay: 3000,
+                timer: 1000,
+                animate: {
+                  enter: 'animated fadeInDown',
+                  exit: 'animated fadeOutUp'
+                },
+              });
+              clearInterval(intervalo);
+            }
+          },
+          error: function(xhr, errmsg, err) {
+            // body...
+          },
+        });
+      }
+    </script>
+  {% endblock js %}
 </body>
 </html>

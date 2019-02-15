@@ -12,7 +12,7 @@ from .tasks import send_email_, print_numbers
 
 
 def home(request):
-    print('request.session:', request.session['res_celery_id'])
+    print('request.session:', request.session.get('res_celery_id'))
     return render(request, 'index.html')
 
 
@@ -78,8 +78,8 @@ def get_last_taskresult(request, task_id=None):
     '''
     Pega o id do último TaskResult
     '''
-    print('request.session:', request.session['res_celery_id'])
-    res_celery_id = request.session['res_celery_id']
+    # print('request.session:', request.session['res_celery_id'])
+    res_celery_id = request.session.get('res_celery_id')
     # task_result = TaskResult.objects.get(task_id=task_id)
     task_result = TaskResult.objects.filter(task_id=res_celery_id).first()
     res = {'res_celery_id': res_celery_id}

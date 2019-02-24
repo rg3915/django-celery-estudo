@@ -24,6 +24,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python contrib/env_gen.py
 python manage.py migrate
+python manage.py migrate django_celery_results
 python manage.py createsuperuser --username='admin' --email=''
 python manage.py shell_plus < shell/shell_person.py
 ```

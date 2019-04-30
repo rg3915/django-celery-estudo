@@ -39,5 +39,5 @@ def parse_cv(filename):
 @shared_task(queue='fila5')
 def running_django_command():
     ''' Chama comando running_task customizado do Django. '''
-    call_command('running_task', verbosity=0, interactive=False)
+    call_command('running_task', verbosity=0)
     return True

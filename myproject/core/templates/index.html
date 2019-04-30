@@ -3,6 +3,11 @@
 {% block content %}
   <div class="jumbotron">
     <h1>Bem vindo!</h1>
+    <p>Exemplo de uso de tarefas assíncronas com Celery.</p>
+    <p>Execute o comando a seguir no terminal</p>
+    <p><pre><code>celery --app=myproject worker --loglevel=INFO --queue=fila1,fila2,fila3
+</code></pre></p>
+    <p>Após o cadastro o Celery será ativado.</p>
     <a href="{% url 'core:person_add' %}">
       <button id="new_customer" type="button" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus"></span> Cadastre-se

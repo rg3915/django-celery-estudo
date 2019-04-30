@@ -1,6 +1,8 @@
 from __future__ import absolute_import
 import time
+from django.core.management import call_command
 from celery import shared_task
+from myproject.core.management.commands import running_task
 
 
 @shared_task(queue='fila1')
@@ -31,4 +33,11 @@ def print_numbers(max_number):
 
 @shared_task(queue='fila4')
 def parse_cv(filename):
+    return True
+
+
+@shared_task(queue='fila5')
+def running_django_command():
+    ''' Chama comando running_task customizado do Django. '''
+    call_command('running_task', verbosity=0, interactive=False)
     return True

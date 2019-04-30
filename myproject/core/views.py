@@ -8,7 +8,7 @@ from django_celery_results.models import TaskResult
 from .mixins import NameSearchMixin
 from .models import Person
 from .forms import PersonForm
-from .tasks import send_email_, print_numbers
+from .tasks import send_email_, print_numbers, running_django_command
 
 
 def home(request):
@@ -41,6 +41,9 @@ class PersonCreate(CreateView):
 
         # Chamando task para teste do django_celery_results
         res = print_numbers.delay(10)
+
+        # Chamando task que executa um custom Django command
+        running_django_command.delay()
 
         print('res print_numbers id', res.id)
         # print('res print_numbers get', res.get())  # demora

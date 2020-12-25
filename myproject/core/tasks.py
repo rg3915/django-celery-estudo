@@ -41,3 +41,8 @@ def running_django_command():
     ''' Chama comando running_task customizado do Django. '''
     call_command('running_task', verbosity=0)
     return True
+
+
+def calc_fibonacci_celery():
+    # cálculo de Fibonacci
+    pass

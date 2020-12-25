@@ -89,3 +89,14 @@ def get_last_taskresult(request, task_id=None):
     if task_result:
         res['task_result'] = task_result.result
     return JsonResponse(res)
+
+
+# urls.py
+# path('calcular-fibonacci/', v.calcular_fibonacci, name='calcular_fibonacci')
+
+# # views.py
+
+
+# @shared_task
+# def calcular_fibonacci(request):
+#     calc_fibonacci_celery.delay()
